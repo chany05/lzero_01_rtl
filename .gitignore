@@ -28,3 +28,7 @@ Thumbs.db
 firtool_extracted/
 *.jar
 *.tar.gz
+build.sbt
+build.sbt
+Makefile
+.gitmodules

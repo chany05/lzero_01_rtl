@@ -37,5 +37,5 @@ down:
 
 # 6. 청소 (Clean)
 clean:
-	docker exec -it lzero_rtl_env sbt clean
-	rm -rf out/ generated/
+	docker exec lzero_rtl_env sbt clean
+	docker exec lzero_rtl_env rm -rf out/ generated/

@@ -30,12 +30,13 @@ libc6 libstdc++6 zlib1g \
 # RUN curl -s "https://get.sdkman.io" | bash && \
 #     bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install sbt"
 
-# SBT 설치 (SDKMAN 방식은 쉘 스크립트 실행이 복잡하므로 공식 deb 방식 추천)
-RUN echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list && \
-    echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee /etc/apt/sources.list.d/sbt_old.list && \
-    curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add && \
-    apt-get update && apt-get install -y sbt
-
+# SBT 바이너리 직접 설치 (apt 저장소 우회)
+ARG SBT_VERSION=1.10.7
+RUN curl -fL "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" \
+        -o /tmp/sbt.tgz && \
+    tar -xzf /tmp/sbt.tgz -C /opt && \
+    ln -s /opt/sbt/bin/sbt /usr/local/bin/sbt && \
+    rm /tmp/sbt.tgz
 
 # Mill 최신 버전을 다운로드하고 실행 권한을 부여합니다.
 RUN curl -L https://github.com/com-lihaoyi/mill/releases/download/0.11.7/0.11.7 > /usr/local/bin/mill && \
